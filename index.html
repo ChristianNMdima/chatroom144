@@ -1,0 +1,90 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Chatroom 144</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="http://localhost/realtime/style.scss">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"> 
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-database.js"></script>
+</head>
+<body onload="load()">
+
+    <div class="container">
+        <!-- <div class="brand-logo"></div> -->
+        <div class="brand-title">Room 144</div>
+        <p>Random chat with random people from random places</p>
+        <div class="inputs">
+          <input type="text" id="visitor" placeholder="Enter your name"/>
+          <button type="submit" id="join" onclick="join()">JOIN ROOM</button>
+          <button type="submit" id="proceed" onclick="proceed()">PROCEED</button>
+        </div>
+        <!-- <a href="https://twitter.com/mdima">MADE BY C</a> -->
+      </div>
+<script>
+
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCGjJFvq3d2OPj-8cH7fGv6FNHoTm50JFU",
+        authDomain: "iinit-1515063063251.firebaseapp.com",
+        databaseURL: "https://iinit-1515063063251.firebaseio.com",
+        projectId: "iinit-1515063063251",
+        storageBucket: "iinit-1515063063251.appspot.com",
+        messagingSenderId: "908370101090",
+        appId: "1:908370101090:web:fe38866058ba8da565e23b",
+        measurementId: "G-G8TEEST87Z"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    function approaching() {
+        firebase.database().ref("messages").push().set({
+        "message": `Someone approaching...`,
+        "sender": "Monitor"
+        });
+        return false;
+    }
+
+    function userJoined(user) {
+        firebase.database().ref("messages").push().set({
+        "message": `Welcome ${user}`,
+        "sender": "Monitor"
+        });
+        return false;
+    }
+
+    function load() {
+        if(localStorage.getItem("name") == "") {
+            document.getElementById('visitor').innerHTML = localStorage.getItem("name");
+            document.getElementById('proceed').style.display = "none"; 
+            approaching();
+        } else {
+            document.getElementById('join').style.display = "none";
+            document.getElementById('visitor').style.display = "none";
+            document.getElementById('proceed').style.display = "inline";
+        }
+        
+        
+    }
+
+    function join() {
+        let visitor = document.getElementById('visitor').value;
+        console.log('visitor ' + visitor );
+        localStorage.setItem("name", visitor);
+        userJoined(visitor);
+        
+        document.getElementById('join').style.display = "none";
+        document.getElementById('proceed').style.display = "inline";
+    }
+
+    function proceed() {
+        window.location.href = "./chatroom";
+    }
+
+</script>
+</body>
+</html>
